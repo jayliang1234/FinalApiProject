@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XFacIBItrM4zHMDEpymjvgL5TPtaP6GZ0UQ8RBLzchzCF5jPAM0+/5IiZoiOm9GqaumfmkTcsKh4hy1Vo9YV1A==",
+  "dgSpecHash": "uIKkFWqvvqKR9Kq3LV40Fr18CWG1au+1DlxOiOGqsBGyyNOuAtNNDTy3tGekmBXpjnOKw+TWHclkzpbR5fivmQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Jayliang1234\\Desktop\\repos\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj",
+  "projectFilePath": "C:\\Users\\Jayliang1234\\Desktop\\repos\\FinalApiProject\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jayliang1234\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Jayliang1234\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

@@ -24,26 +24,37 @@ namespace FinalProjectAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Abilities>>> GetAbilities()
         {
-          if (_context.Abilities == null)
-          {
-              return NotFound();
-          }
-            return await _context.Abilities.ToListAsync();
+            var response = new Response();
+            if (_context.Abilities == null)
+            {
+                response.statusCode = 400;
+                response.statusDescription = "Request failed, database is empty";
+                return BadRequest(response);
+            }
+            else
+            {
+                return await _context.Abilities.ToListAsync();
+            }
         }
 
         // GET: api/Abilities/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Abilities>> GetAbilities(int id)
         {
-          if (_context.Abilities == null)
-          {
-              return NotFound();
-          }
+            var response = new Response();
+            if (_context.Abilities == null)
+            {
+                response.statusCode = 400;
+                response.statusDescription = "Request failed, because _context.abilities is null";
+                return BadRequest(response);
+            }
             var abilities = await _context.Abilities.FindAsync(id);
 
             if (abilities == null)
             {
-                return NotFound();
+                response.statusCode = 400;
+                response.statusDescription = "Request failed, because abilities is null";
+                return BadRequest(response);
             }
 
             return abilities;
@@ -54,9 +65,13 @@ namespace FinalProjectAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAbilities(int id, Abilities abilities)
         {
+            var response = new Response();
+
             if (id != abilities.AbilityId)
             {
-                return BadRequest();
+                response.statusCode = 400;
+                response.statusDescription = "Request failed, because id does not match AbilityId is null";
+                return BadRequest(response);
             }
 
             _context.Entry(abilities).State = EntityState.Modified;
@@ -69,7 +84,9 @@ namespace FinalProjectAPI.Controllers
             {
                 if (!AbilitiesExists(id))
                 {
-                    return NotFound();
+                    response.statusCode = 404;
+                    response.statusDescription = "Request failed, because Entity set 'FinalProjectDBContext.Abilities'  is null";
+                    return NotFound(response);
                 }
                 else
                 {
@@ -85,10 +102,14 @@ namespace FinalProjectAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Abilities>> PostAbilities(Abilities abilities)
         {
-          if (_context.Abilities == null)
-          {
-              return Problem("Entity set 'FinalProjectDBContext.Abilities'  is null.");
-          }
+            var response = new Response();
+            if (_context.Abilities == null)
+            {
+                response.statusCode = 404;
+                response.statusDescription = "Request failed, because Entity set 'FinalProjectDBContext.Abilities'  is null";
+                return NotFound(response);
+                
+            }
             _context.Abilities.Add(abilities);
             await _context.SaveChangesAsync();
 
@@ -99,14 +120,19 @@ namespace FinalProjectAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAbilities(int id)
         {
+            var response = new Response();
             if (_context.Abilities == null)
             {
-                return NotFound();
+                response.statusCode = 404;
+                response.statusDescription = "Request failed, because Entity set 'FinalProjectDBContext.Abilities'  is null";
+                return NotFound(response);
             }
             var abilities = await _context.Abilities.FindAsync(id);
             if (abilities == null)
             {
-                return NotFound();
+                response.statusCode = 404;
+                response.statusDescription = "Request failed, abilities is null";
+                return NotFound(response);
             }
 
             _context.Abilities.Remove(abilities);

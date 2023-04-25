@@ -24,29 +24,42 @@ namespace FinalProjectAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Champion>>> GetChampions()
         {
-          if (_context.Champions == null)
-          {
-              return NotFound();
-          }
-            return await _context.Champions.ToListAsync();
+            var response = new Response();
+
+            if (_context.Champions == null)
+            {
+                response.statusCode = 400;
+                response.statusDescription = "Request failed, database is empty";
+                return BadRequest(response);
+            }
+            else
+            {
+                return await _context.Champions.ToListAsync();
+            }
         }
 
         // GET: api/Champions/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Champion>> GetChampion(int id)
         {
-          if (_context.Champions == null)
-          {
-              return NotFound();
-          }
             var champion = await _context.Champions.FindAsync(id);
 
-            if (champion == null)
-            {
-                return NotFound();
-            }
+            var response = new Response();
 
-            return champion;
+            response.statusCode = 400;
+
+            if (champion != null)
+            {
+                response.statusCode = 200;
+                response.statusDescription = "Success";
+                response.champions.Add(champion);
+                return Ok(response);
+            }
+            else
+            {
+                response.statusDescription = "Request failed, because championId is not in the database";
+                return BadRequest(response);
+            }
         }
 
         // PUT: api/Champions/5
@@ -54,9 +67,14 @@ namespace FinalProjectAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutChampion(int id, Champion champion)
         {
+            var response = new Response();
+
             if (id != champion.ChampionId)
             {
-                return BadRequest();
+                response.statusCode = 400;
+                response.statusDescription = "id does not match with championId";
+                response.champions.Add(champion);
+                return BadRequest(response);
             }
 
             _context.Entry(champion).State = EntityState.Modified;
@@ -69,7 +87,10 @@ namespace FinalProjectAPI.Controllers
             {
                 if (!ChampionExists(id))
                 {
-                    return NotFound();
+                    response.statusCode = 400;
+                    response.statusDescription = "Champion does not exist";
+                    response.champions.Add(champion);
+                    return BadRequest(response);
                 }
                 else
                 {
@@ -99,14 +120,20 @@ namespace FinalProjectAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteChampion(int id)
         {
+            var response = new Response();
             if (_context.Champions == null)
             {
-                return NotFound();
+                response.statusCode = 400;
+                response.statusDescription = "Champion does not exist";
+                return BadRequest(response);
             }
+
             var champion = await _context.Champions.FindAsync(id);
             if (champion == null)
             {
-                return NotFound();
+                response.statusCode = 400;
+                response.statusDescription = "Champion does not exist";
+                return BadRequest(response);
             }
 
             _context.Champions.Remove(champion);
