@@ -3,11 +3,11 @@ This is a League of Legends API of champions and their abilities
 
 Endpoints
 
-  Get https://localhost:7144/api/champions{ChampionId}
+  Get https://localhost:7144/api/champions{ChampionId} //gets champions data
   
-  Get https://localhost:7144/api/abilities/{ChampionId}
+  Get https://localhost:7144/api/abilities/{ChampionId} //gets abilities data
   
-  Post https://localhost:7144/api/champions
+  Post https://localhost:7144/api/champions //posts new champion
 
 Sample Request
 
