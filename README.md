@@ -17,11 +17,11 @@ go to FinalProjectApi >> FinalProjectApi >> appsettings.json and edit username a
 
 Endpoints
 
-  Get https://localhost:7144/api/champions/{ChampionId} //gets champions data
+  Get api/champions/{ChampionId} //gets champions data
   
-  Get https://localhost:7144/api/abilities/{ChampionId} //gets abilities data
+  Get api/abilities/{ChampionId} //gets abilities data
   
-  Post https://localhost:7144/api/champions //posts new champion
+  Post api/champions //posts new champion
 
 Sample Request
 
