@@ -11,7 +11,8 @@ create a database/schema called leaguechampions
 
 run the finalprojectscript in your connection to create your database tables
 
-go to FinalProjectApi >> FinalProjectApi >> appsettings.json and edit username and password 
+go to FinalProjectApi >> FinalProjectApi >> appsettings.json and edit username and password so that it matches your connection
+
 "Server=127.0.0.1;Port=3306;Database=leaguechampions;User=User;Password=Password"
 
 Endpoints
