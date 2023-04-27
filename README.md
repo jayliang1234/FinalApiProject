@@ -1,6 +1,19 @@
 # FinalApiProject
 This is a League of Legends API of champions and their abilities
 
+Instructions
+
+clone repository
+
+create a mysql workbench connection
+
+create a database/schema called leaguechampions
+
+run the finalprojectscript in your connection to create your database tables
+
+go to FinalProjectApi >> FinalProjectApi >> appsettings.json and edit username and password 
+"Server=127.0.0.1;Port=3306;Database=leaguechampions;User=User;Password=Password"
+
 Endpoints
 
   Get https://localhost:7144/api/champions/{ChampionId} //gets champions data
