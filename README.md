@@ -28,33 +28,36 @@ Sample Request
 POST https://localhost:7144/api/champions
 
 {
-    "championName": "Akali",
-    "championRole": "Assassin",
-    "difficulty": 2,
+    "championName": "Bard",
+    "championRole": "Suppport/Mage",
+    "difficulty": 3,
     "ability": {
-        "ability1": "Five Point Strike",
-        "ability2": "Twilight Shroud",
-        "ability3": "Shuriken Flip",
-        "ult": "Perfect Execution",
-        "innate": "Assassin's Mark"
+        "ability1": "Cosmic Binding",
+        "ability2": "Caretaker's Shrine",
+        "ability3": "Magical Journey",
+        "ult": "Tempered Fate",
+        "innate": "Traveler's Call"
     }
 }
 
 Sample Response
 
 {
-    "championId": 4,
-    "championName": "Akali",
-    "championRole": "Assassin",
-    "difficulty": 2,
-    "ability": {
-        "abilityId": 4,
-        "ability1": "Five Point Strike",
-        "ability2": "Twilight Shroud",
-        "ability3": "Shuriken Flip",
-        "ult": "Perfect Execution",
-        "innate": "Assassin's Mark"
+    "statusCode": 200,
+    "statusDescription": "Successfully added champion",
+    "champion": {
+        "championId": 11,
+        "championName": "Bard",
+        "championRole": "Suppport/Mage",
+        "difficulty": 3,
+        "ability": {
+            "abilityId": 11,
+            "ability1": "Cosmic Binding",
+            "ability2": "Caretaker's Shrine",
+            "ability3": "Magical Journey",
+            "ult": "Tempered Fate",
+            "innate": "Traveler's Call"
+        }
     }
-    
 }
 
