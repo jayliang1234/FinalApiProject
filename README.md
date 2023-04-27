@@ -28,7 +28,6 @@ Endpoints
 Sample Request
 
 POST https://localhost:7144/api/champions
-
 {
     "championName": "Bard",
     "championRole": "Suppport/Mage",
