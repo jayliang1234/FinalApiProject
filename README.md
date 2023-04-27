@@ -25,7 +25,7 @@ Endpoints
 
 Sample Request
 
-POST https://localhost:7144/api/champions
+`POST https://localhost:7144/api/champions
 
 {
     "championName": "Bard",
@@ -38,7 +38,7 @@ POST https://localhost:7144/api/champions
         "ult": "Tempered Fate",
         "innate": "Traveler's Call"
     }
-}
+}`
 
 Sample Response
 
