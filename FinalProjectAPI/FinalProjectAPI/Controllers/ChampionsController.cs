@@ -25,7 +25,8 @@ namespace FinalProjectAPI.Controllers
         public async Task<ActionResult<IEnumerable<Champion>>> GetChampions()
         {
             var response = new Response();
-
+            response.statusCode = 200;
+            response.statusDescription = "Success!";
             if (_context.Champions == null)
             {
                 response.statusCode = 400;
@@ -34,7 +35,10 @@ namespace FinalProjectAPI.Controllers
             }
             else
             {
-                return await _context.Champions.ToListAsync();
+                response.statusCode = 200;
+                response.statusDescription = "Success!";
+                var champions = await _context.Champions.ToListAsync();
+                return Ok(new { response.statusCode, response.statusDescription, champions });
             }
         }
 
@@ -52,8 +56,8 @@ namespace FinalProjectAPI.Controllers
             {
                 response.statusCode = 200;
                 response.statusDescription = "Success";
-                response.champions.Add(champion);
-                return Ok(response);
+                return Ok(new { response.statusCode, response.statusDescription, champion });
+
             }
             else
             {
@@ -81,14 +85,17 @@ namespace FinalProjectAPI.Controllers
 
             try
             {
+                response.statusCode = 200;
+                response.statusDescription = "Successfully edited champion";
                 await _context.SaveChangesAsync();
+                return Ok(new { response.statusCode, response.statusDescription, champion });
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!ChampionExists(id))
                 {
                     response.statusCode = 400;
-                    response.statusDescription = "Champion does not exist";
+                    response.statusDescription = "Request Failed Champion does not exist";
                     response.champions.Add(champion);
                     return BadRequest(response);
                 }
@@ -106,14 +113,16 @@ namespace FinalProjectAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Champion>> PostChampion(Champion champion)
         {
-          if (_context.Champions == null)
-          {
-              return Problem("Entity set 'FinalProjectDBContext.Champions'  is null.");
-          }
+            var response = new Response();
+            if (_context.Champions == null)
+            {
+                return Problem("Entity set 'FinalProjectDBContext.Champions'  is null.");
+            }
             _context.Champions.Add(champion);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetChampion", new { id = champion.ChampionId }, champion);
+            response.statusCode = 200;
+            response.statusDescription = "Successfully added champion";
+            return Ok(new { response.statusCode,response.statusDescription, champion });
         }
 
         // DELETE: api/Champions/5
