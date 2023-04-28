@@ -1,3 +1,5 @@
+CREATE DATABASE leaguechampions;
+
 CREATE TABLE `abilities` (
   `AbilityId` int NOT NULL AUTO_INCREMENT,
   `Ability1` varchar(1000) NOT NULL,
