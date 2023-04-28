@@ -31,7 +31,7 @@ namespace FinalProjectAPI.Controllers
             {
                 response.statusCode = 400;
                 response.statusDescription = "Request failed, database is empty";
-                return BadRequest(response);
+                return BadRequest(new { response.statusCode, response.statusDescription });
             }
             else
             {
@@ -55,14 +55,15 @@ namespace FinalProjectAPI.Controllers
             if (champion != null)
             {
                 response.statusCode = 200;
-                response.statusDescription = "Success";
+                response.statusDescription = "Success!";
                 return Ok(new { response.statusCode, response.statusDescription, champion });
 
             }
             else
             {
+                response.statusCode = 400;
                 response.statusDescription = "Request failed, because championId is not in the database";
-                return BadRequest(response);
+                return BadRequest(new { response.statusCode, response.statusDescription });
             }
         }
 
@@ -77,8 +78,7 @@ namespace FinalProjectAPI.Controllers
             {
                 response.statusCode = 400;
                 response.statusDescription = "id does not match with championId";
-                response.champions.Add(champion);
-                return BadRequest(response);
+                return BadRequest(new { response.statusCode, response.statusDescription });
             }
 
             _context.Entry(champion).State = EntityState.Modified;
@@ -96,16 +96,13 @@ namespace FinalProjectAPI.Controllers
                 {
                     response.statusCode = 400;
                     response.statusDescription = "Request Failed Champion does not exist";
-                    response.champions.Add(champion);
-                    return BadRequest(response);
+                    return BadRequest(new { response.statusCode, response.statusDescription });
                 }
                 else
                 {
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Champions
@@ -116,7 +113,9 @@ namespace FinalProjectAPI.Controllers
             var response = new Response();
             if (_context.Champions == null)
             {
-                return Problem("Entity set 'FinalProjectDBContext.Champions'  is null.");
+                response.statusCode = 200;
+                response.statusDescription = "Error, Entity set 'FinalProjectDBContext.Champions'  is null.";
+                return BadRequest(new { response.statusCode, response.statusDescription });
             }
             _context.Champions.Add(champion);
             await _context.SaveChangesAsync();
@@ -134,7 +133,7 @@ namespace FinalProjectAPI.Controllers
             {
                 response.statusCode = 400;
                 response.statusDescription = "Champion does not exist";
-                return BadRequest(response);
+                return BadRequest(new { response.statusCode, response.statusDescription});
             }
 
             var champion = await _context.Champions.FindAsync(id);
@@ -142,13 +141,14 @@ namespace FinalProjectAPI.Controllers
             {
                 response.statusCode = 400;
                 response.statusDescription = "Champion does not exist";
-                return BadRequest(response);
+                return BadRequest(new { response.statusCode, response.statusDescription});
             }
 
             _context.Champions.Remove(champion);
             await _context.SaveChangesAsync();
-
-            return NoContent();
+            response.statusCode = 200;
+            response.statusDescription = "Successfully deleted champion";
+            return Ok(new { response.statusCode, response.statusDescription, champion });
         }
 
         private bool ChampionExists(int id)

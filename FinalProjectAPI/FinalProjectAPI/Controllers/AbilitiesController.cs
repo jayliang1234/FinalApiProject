@@ -29,11 +29,14 @@ namespace FinalProjectAPI.Controllers
             {
                 response.statusCode = 400;
                 response.statusDescription = "Request failed, database is empty";
-                return BadRequest(response);
+                return BadRequest(new { response.statusCode, response.statusDescription});
             }
             else
             {
-                return await _context.Abilities.ToListAsync();
+                response.statusCode = 200;
+                response.statusDescription = "Success";
+                var ability = await _context.Abilities.ToListAsync();
+                return Ok(new { response.statusCode, response.statusDescription,ability });
             }
         }
 
@@ -42,22 +45,20 @@ namespace FinalProjectAPI.Controllers
         public async Task<ActionResult<Abilities>> GetAbilities(int id)
         {
             var response = new Response();
-            if (_context.Abilities == null)
-            {
-                response.statusCode = 400;
-                response.statusDescription = "Request failed, because _context.abilities is null";
-                return BadRequest(response);
-            }
             var abilities = await _context.Abilities.FindAsync(id);
 
             if (abilities == null)
             {
                 response.statusCode = 400;
-                response.statusDescription = "Request failed, because abilities is null";
-                return BadRequest(response);
+                response.statusDescription = "Request failed, champion id not in database";
+                return BadRequest(new { response.statusCode, response.statusDescription});
             }
-
-            return abilities;
+            else
+            {
+                response.statusCode = 200;
+                response.statusDescription = "Success";
+                return Ok(new { response.statusCode, response.statusDescription, abilities});
+            }
         }
 
         // PUT: api/Abilities/5
@@ -70,8 +71,8 @@ namespace FinalProjectAPI.Controllers
             if (id != abilities.AbilityId)
             {
                 response.statusCode = 400;
-                response.statusDescription = "Request failed, because id does not match AbilityId is null";
-                return BadRequest(response);
+                response.statusDescription = "Request failed, champion id not in database";
+                return BadRequest(new { response.statusCode, response.statusDescription });
             }
 
             _context.Entry(abilities).State = EntityState.Modified;
@@ -79,22 +80,23 @@ namespace FinalProjectAPI.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                response.statusCode = 200;
+                response.statusDescription = "Successfully editted";
+                return Ok(new { response.statusCode, response.statusDescription, abilities });
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!AbilitiesExists(id))
                 {
-                    response.statusCode = 404;
+                    response.statusCode = 400;
                     response.statusDescription = "Request failed, because Entity set 'FinalProjectDBContext.Abilities'  is null";
-                    return NotFound(response);
+                    return BadRequest(new { response.statusCode, response.statusDescription });
                 }
                 else
                 {
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Abilities
@@ -107,13 +109,14 @@ namespace FinalProjectAPI.Controllers
             {
                 response.statusCode = 404;
                 response.statusDescription = "Request failed, because Entity set 'FinalProjectDBContext.Abilities'  is null";
-                return NotFound(response);
-                
+                return BadRequest(new { response.statusCode, response.statusDescription });
+
             }
             _context.Abilities.Add(abilities);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetAbilities", new { id = abilities.AbilityId }, abilities);
+            response.statusCode = 200;
+            response.statusDescription = "Successfully added champion";
+            return Ok(new { response.statusCode, response.statusDescription, abilities });
         }
 
         // DELETE: api/Abilities/5
@@ -125,20 +128,21 @@ namespace FinalProjectAPI.Controllers
             {
                 response.statusCode = 404;
                 response.statusDescription = "Request failed, because Entity set 'FinalProjectDBContext.Abilities'  is null";
-                return NotFound(response);
+                return BadRequest(new { response.statusCode, response.statusDescription });
             }
             var abilities = await _context.Abilities.FindAsync(id);
             if (abilities == null)
             {
                 response.statusCode = 404;
-                response.statusDescription = "Request failed, abilities is null";
-                return NotFound(response);
+                response.statusDescription = "Request failed, abilities not found";
+                return BadRequest(new { response.statusCode, response.statusDescription });
             }
 
             _context.Abilities.Remove(abilities);
             await _context.SaveChangesAsync();
-
-            return NoContent();
+            response.statusCode = 200;
+            response.statusDescription = "Successfully deleted";
+            return Ok(new { response.statusCode, response.statusDescription, abilities });
         }
 
         private bool AbilitiesExists(int id)
