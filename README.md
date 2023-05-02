@@ -3,7 +3,7 @@ This is a League of Legends API of champions and their abilities
 
 Little change I made
 
-AbilityId is INT instead of STRING
+the primary key "AbilityId" is INT instead of STRING
 
 Instructions
 
