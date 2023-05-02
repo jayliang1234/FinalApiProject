@@ -18,10 +18,10 @@ go to FinalProjectApi >> FinalProjectApi >> appsettings.json and edit username a
 Endpoints
 
   Get api/champions/{ChampionId} //gets champions data
-      api/abilities/{ChampionId} //gets abilities data
+      api/abilities/{AbilityId} //gets abilities data
       
   Put api/champions/{ChampionId} //Changes Data for Specified champion
-      api/abilities/{ChampionId} //Changes Data for abilities
+      api/abilities/{AbilibtyId} //Changes Data for abilities
   
   Post api/champions //posts new champion
 
